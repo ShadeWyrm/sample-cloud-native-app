@@ -1,0 +1,31 @@
+@{
+    ViewData["Title"] = "Review a Service";
+}
+
+<h1>Reviews</h1>
+
+<div id="reviewList"></div>
+
+<script>
+    $( document ).ready(function() {
+        var id = '@ViewData["Id"]';
+        $.get( "/api/Review/" + id, function( data ) {
+            var services = data;
+            
+            $("#reviewList").html("");
+            
+            var rawHtml = "<ul>";
+            $.each(services, function(index, value) {
+                var displayData = "<p><a href='/UserReview/Read/@ViewData["Id"]?reviewId="+value.id+"'>A user said this service is " +  value.label + "</a></p>";
+                rawHtml += "<li>"+displayData+"</li>";
+            });
+            rawHtml += "</ul>";
+            
+            
+            $( "#reviewList" ).append( rawHtml );
+            
+        });
+    });
+</script>
+
+<p>Add your own review <a href='/UserReview/Add/@ViewData["Id"]'>here</a>.</p>

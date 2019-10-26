@@ -1,0 +1,29 @@
+@{
+    ViewData["Title"] = "Service Reviews";
+}
+
+<h1>Services</h1>
+
+<div id="serviceList"></div>
+
+<script>
+    $( document ).ready(function() {
+        
+        $.get( "api/DepartmentService", function( data ) {
+            var services = data;
+            
+            $("#serviceList").html("");
+            
+            var rawHtml = "<ul>";
+            $.each(services, function(index, value) {
+                var displayData = "<a href='/UserReview/Service/"+value.id+"'>" + value.englishLabel + "</a>";
+                rawHtml += "<li>"+displayData+"</li>";
+            });
+            rawHtml += "</ul>";
+            
+            
+            $( "#serviceList" ).append( rawHtml );
+            
+        });
+    });
+</script>

@@ -1,0 +1,29 @@
+@{
+    ViewData["Title"] = "Add a Review a Service";
+}
+
+<h1>Add a Review</h1>
+
+<form method="post">
+    <input type="hidden" id="Id" name="Id" value="@ViewData["Id"]" />
+    <select id='ReviewType' name="ReviewType"></select
+    <br/>
+    <textarea name="Comment" cols="40" rows="5" maxlength="250"></textarea>
+    <br/>
+    <input type="submit" name="submit" value="Submit">
+</form>
+
+<script>
+    $( document ).ready(function() {
+        $.get( "/api/Rating", function( data ) {
+            var services = data;
+            
+            $("#ReviewType").empty();
+
+            $.each(services, function(index, value) {
+                $("#ReviewType").append('<option value="'+value.id+'">'+value.englishLabel+'</option>')
+            });
+            
+        });
+    });
+</script>
