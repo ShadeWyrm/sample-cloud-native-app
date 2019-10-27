@@ -1,5 +1,11 @@
 <h1>Design</h1>
 
+<div class="alert alert-info">
+   <p>This application can be found on GitHub here: <a href="https://github.com/ShadeWyrm/sample-cloud-native-app">https://github.com/ShadeWyrm/sample-cloud-native-app</a></p>
+   <p>It is hosted in Azure at the following Url : <a href="https://gccloudapp.azurewebsites.net/">https://gccloudapp.azurewebsites.net/</a></p>
+   <p>The API can be explored via Swagger at : <a href="https://gccloudapp.azurewebsites.net/swagger/">https://gccloudapp.azurewebsites.net/swagger/</a> all API Functions are available in the Swagger Documentation</p>
+</div>
+
 <p>The design of this application uses considerations from the <a href="https://www.canada.ca/en/government/system/digital-government/government-canada-digital-standards.html">GC Digital Standards</a>, and <a href="https://wiki.gccollab.ca/Government_of_Canada_Architectural_Standards">GC Enterprise Architectural Standards</a> and finally <a href="https://en.wikipedia.org/wiki/KISS_principle">KISS Principle</a> as basis for the decisions around its architecture.</p>
 
 <p>This application is a Minimum Viable Product, and has many areas of expansion, it is by no means meant to display the breadth of capabilities in Cloud Applications or display the most bleeding edge approaches. It's design is meant to show a sustainable rapid development pattern for organizations in the midst of Workload Migration, and is not the basis for R&D Teams.</p>
@@ -83,5 +89,6 @@
 <p>The Source Code Repository, and Cloud Services have Two-Factor Authentication enabled.</p>
 <p>The Technology stack is Open Source, and thus security of it is constantly tested.</p>
 <p>AspNetCore Identity 3 Provider provides Two-Factor Authentication methods if those services are enabled. (They were not enabled for this sample due to cost.)</p>
+<p>SSL is enforced by the Application to prevent Man-in-The-Middle Attacks.</p>
 
 <br/><br/>
