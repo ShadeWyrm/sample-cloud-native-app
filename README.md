@@ -6,4 +6,4 @@ Technology:
 - AspNet Core Identity
 - Entity Framework Core
 
-The app can be viewed at : http://gccloudsample-env.kexcfryzm3.us-east-2.elasticbeanstalk.com/
+The app can be viewed at : https://gccloudapp.azurewebsites.net/
