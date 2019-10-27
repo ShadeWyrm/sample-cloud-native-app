@@ -1,30 +1,87 @@
 <h1>Design</h1>
 
+<p>The design of this application uses considerations from the <a href="https://www.canada.ca/en/government/system/digital-government/government-canada-digital-standards.html">GC Digital Standards</a>, and <a href="https://wiki.gccollab.ca/Government_of_Canada_Architectural_Standards">GC Enterprise Architectural Standards</a> and finally <a href="https://en.wikipedia.org/wiki/KISS_principle">KISS Principle</a> as basis for the decisions around its architecture.</p>
+
+<p>This application is a Minimum Viable Product, and has many areas of expansion, it is by no means meant to display the breadth of capabilities in Cloud Applications or display the most bleeding edge approaches. It's design is meant to show a sustainable rapid development pattern for organizations in the midst of Workload Migration, and is not the basis for R&D Teams.</p>
+<p>The application was developed in the span of only a few hours off of the GC Corporate Networks, and is purposefully architected to show the speed of adoption for Cloud Technology.</p>
+<p>The following known deficiencies exist : </p>
+<ul>
+<li><b>Official Languages</b> - This application does not use a 'real' implementation of CDTS. <a href="http://www.gcpedia.gc.ca/wiki/Centrally_Deployed_Templates_Solution_(CDTS)">[GC Network Only - CDTS Link]</a></li>
+<li><b>Lack of Breadcrumbs</b> - As per above, CDTS simplifies the creation of Breadcrumbs and recreation of components that already exist would not be in the spirit of the Digital Standards. </li>
+<li><b>Mobile Experience</b> - No mobile testing occurred as above, the use of proper implementation of CDTS alleviates a vast majority of issues on it's own.</li>
+<li><b>No Accessibility / Inclusiveness Testing</b> - WCAG, Accessibility, and Inclusive Design were not implemented as part of this exercise. For more details on how you should develop inclusive services check out <a href="https://digital.canada.ca/2019/02/13/building-inclusive-services-is-not-about-perfection/">here</a>.</li>
+<li><b>External Identity Provider</b> - At the moment of this creation exemptions are required by TBS to use Social Media Login, and technology wise a Stable URL or IP of which I would not produce for a Sample Application.</li>
+<li><b>Dummy Content</b> - This is a sample application, and as such contains sample and dummy data.</li>
+<li><b>Test Driven Design</b> - Time was a constraint for this application, while the vast majority of Applications would greatly benefit from TDD, it was chosen to be dropped due to the simplicity of this application.</li>
+<li><b>Swagger Branding</b> - Ideally the branding for Swagger would apply the GC Look and Feel, but this was out of scope.</li>
+</ul>
+
 <h2>Business</h2>
 
 <div class="alert alert-warning">
-   <p>
-    This sample application had no form of Business Architecture occur. Normally analaysis of Stakeholder needs would occur, and that a Gender Based Analysis Plus lens be applied to ensure that the structure of the Business Process had value in becoming a technology.  
-    For more information on applying Business Architecture please visit <a href="https://wiki.gccollab.ca/GC_Enterprise_Business_Architecture">here</a>.
+   <p>This sample application had no form of Business Architecture occur.</p>
+    <p>Normally analysis of Stakeholder needs would occur to identify if any technology was actually necessary and that Business Processes were modernized and efficient.</p>
+    <p>A <a href="https://cfc-swc.gc.ca/gba-acs/index-en.html">Gender Based Analysis Plus</a> lens would be applied to ensure that the structure of the Business process is as free of Discrimination and Bias as possible.</p>
+    <p>Finally, a <a href="https://www.tbs-sct.gc.ca/pol-cont/doc/32593-eng.docx">Concept Case</a> would be developed to document the problem statement and can be repurposed for the use of a Vision Statement in an agile processes.</p>
+    <p>
+    All of this would be done jointly between staff under the project and would not discriminate against field of endeavour focusing on collaboration as opposed to hand off approach in a well defined Agile Project Management methodology such as SCRUM or Kanban JIT.
+    It's important that discipline, and constant learning be applied else teams fall into the trap of Agilefall, and that Management is aware a Team is never a lone individual. 
    </p>
+   
+   <p>For more information on applying Business Architecture please visit <a href="https://wiki.gccollab.ca/GC_Enterprise_Business_Architecture">here</a>.</p>
 </div>
 
-<p>The Department is looking for a new online application for users to rate their online experience and provide feedback after they have consumed one of its online services. </p>
+<p>The Business Architecture for this application was prompted off the following concept case : The Department is looking for a new online application for users to rate their online experience and provide feedback after they have consumed one of its online services. </p>
 
 <h2>Information</h2>
 
+<p>The Information Architecture for this application is a Code First Data Model designed to be applied at runtime to any Database. The Data Model automatically produced follows generalized standards for modern relational databases.</p>
+<p>Identity Data is collected using the standard format available in .NET Core and stored securely, while Review information is stored in a standard relational database structure.</p>
+
+<div class="alert alert-info">
+   <p>
+   The Database Password was deliberately <a href="https://github.com/ShadeWyrm/sample-cloud-native-app/commit/8f69ff1a80d80033e6820cb496ec6bd1c915a6a1">checked in</a> to show the difference between good behavior and bad. Adoption of Environment Variables over Config files can help secure and stabalize your applications and servers regardless of Cloud or On-Prem.
+   </p>
+   <p><i>Before anyone tries it, I changed the password before the check-in.</i></p>
+</div>
+
+
 <h2>Application</h2>
 
-<p>The Application layer is .NET Core 3.0 leveraging Core Identity Provider, and Entity Framework Core for abstraction of Identity and Database.</p>
+<p>The Application layer is .NET Core 3.0 Application using a generic MVC Pattern leveraging Core Identity Provider, and Entity Framework Core for abstraction of Identity and Database. It implements an API that is accessed by the frontend using Razor Pages and jQuery.</p>
+
+<div class="alert alert-info">
+   <p>
+   Entity Framework is an Abstraction Layer in of itself, while a new rebuild is required to swap database providers it is as simple as changing a single line of code and adding the necessary dependencies for the Database of your choice.
+   </p>
+</div>
+
+<p>.NET Core, AspNetCore Identity Provider and Entity Framework Core are Open Source aligning with the GC Standards on use of Open Source Software.</p>
+
+<p>.NET Core 3.0 was chosen due it's continued performance improvements and many quality of life improvements allowing for ultra-rapid application creation. .NET Standard would not be given the same consideration due to the immense performance gains in .NET Core allowing it to be comparable to NodeJS, GO and other languages designed for API First Development.</p>
+<p>AspNetCore was chosen as attempting to recreate an Identity Provider from scratch would be insecure at best or foolish at worst. As an Open Source model for Identity Management it is probed for Security Holes consistently and constantly making it far more secure than what a homebrew implementation could create.</p>
+<p>Entity Framework Core was chosen for Database abstraction allowing a simplified and consistent way to access a Relational Database without the use of SQL.</p>
+
+<p>Razor pages were selected over React/Vue simply for ease of use, a Component Model would be considered overkill for this small application and produce more abstraction and overhead than benefit.</p>
+<p>jQuery was selected for the above reason as a quick and simple method to access the API.</p>
 
 <h2>Technology</h2>
 
 <div class="alert alert-info">
    <p>
-    This sample application has a full CI/CD Pipeline enabled from the Github repo. It takes roughly 2 minutes to deploy a new version of this application, and triggers automatically a build, validation and then deploy.</a>.
+    This sample application has a full CI/CD Pipeline enabled from the Github repo. It takes roughly 2 minutes to deploy a new version of this application, and triggers automatically a build, validation and then deploy.</a>
    </p>
 </div>
 
 <p>The technology layer consists of a Cloud Agnostic platform allowing this to be deployed in any environment with relative ease as long as it supports .NET Core. For this specific example AWS was used to host the Database and Azure for the Application, but any provider would work that supports .NET Core 3.</p>
+<p>The Database is a standard Postgres Database, and was chosen as it is an Open Source technology, but any relational database could be deployed and used.</p>
+<p>The Cloud Provider was chosen as Azure supports .NET Core 3.0 more then other cloud providers at this time. Should another provider be needed support should occur in a few months timeframe or the version of the Sample Application could be set to Core 2.1 with a few syntax changes.</p>
 
 <h2>Security and Privacy</h2>
+
+<p>Passwords are stored according to AspNetCore Identity Provider standards, which consist of hasing via PBKDF2 with HMAC-SHA256, 128-bit salt, 256-bit subkey, 10000 iterations.</p>
+<p>The Source Code Repository, and Cloud Services have Two-Factor Authentication enabled.</p>
+<p>The Technology stack is Open Source, and thus security of it is constantly tested.</p>
+<p>AspNetCore Identity 3 Provider provides Two-Factor Authentication methods if those services are enabled. (They were not enabled for this sample due to cost.)</p>
+
+<br/><br/>
