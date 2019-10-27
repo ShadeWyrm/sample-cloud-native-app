@@ -48,36 +48,6 @@ namespace GCCloudSample.Controllers
             ViewData["id"] = Id;
             return View();
         }
-        
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Add(IFormCollection form) {
-            
-            int serviceId = 0;
-            Int32.TryParse(form["Id"][0], out serviceId);
-            int ratingId = 0;
-            Int32.TryParse(form["ReviewType"][0], out ratingId);
-            
-            string comment = form["Comment"][0];
-
-            var serviceObject = _dbContext.DepartmentServices.FirstOrDefault(x => x.Id == serviceId);
-            var rating = _dbContext.Ratings.FirstOrDefault(x => x.Id == ratingId);
-            var userData = _dbContext.Users.FirstOrDefault(x => x.Id == _userManager.GetUserId(User));
-            
-            Review userReview = new Review {
-                User = userData,
-                DepartmentService = serviceObject,
-                Rating = rating,
-                Comment = comment
-            };
-            
-            _dbContext.Add(userReview);
-            _dbContext.SaveChanges();
-
-            return RedirectToAction("Service", "UserReview", new { Id = serviceId });
-        
-            //return Ok(userReview);
-        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

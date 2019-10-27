@@ -4,7 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using GCCloudSample.Models;
 using GCCloudSample.Models.ReviewViewModel;
@@ -16,9 +18,11 @@ namespace GCCloudSample.Controllers
     public class ReviewController : Controller
     {
         private GcDbContext _dbContext;
+        private readonly UserManager<ApplicationUser> _userManager;
         
-        public ReviewController(GcDbContext context) {
+        public ReviewController(UserManager<ApplicationUser> userManager, GcDbContext context) {
             _dbContext = context;
+            _userManager = userManager;
         }
         
         [HttpGet]
@@ -41,6 +45,31 @@ namespace GCCloudSample.Controllers
                     UserName = x.User.UserName,
                     Label = x.Rating.EnglishLabel
                 }).ToListAsync();
+        }
+        
+        [HttpPut, Authorize]
+        public IActionResult Put(SubmitReviewModel model) {
+            
+            int serviceId = model.ServiceId;
+            int ratingId = model.RatingId;
+            
+            string userId = _userManager.GetUserId(User);
+
+            var serviceObject = _dbContext.DepartmentServices.FirstOrDefault(x => x.Id == serviceId);
+            var rating = _dbContext.Ratings.FirstOrDefault(x => x.Id == ratingId);
+            var userData = _dbContext.Users.FirstOrDefault(x => x.Id == userId);
+            
+            
+            Review userReview = new Review {
+                User = userData,
+                DepartmentService = serviceObject,
+                Rating = rating,
+                Comment = model.Comment
+            };
+            _dbContext.Add(userReview);
+            _dbContext.SaveChanges();
+            
+            return Ok(userReview);
         }
     }
 }
