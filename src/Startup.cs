@@ -31,7 +31,7 @@ namespace GCCloudSample
         {
             //Register the DB
             string connectionString = Environment.GetEnvironmentVariable("POSTGRESQLCONNSTR_ConnectionString");
-            services.AddDbContext<GcDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<GcDbContext>(options => options.UseNpgsql(connectionString));
         
             //Register Controllers and Views
             services.AddControllersWithViews();
