@@ -22,7 +22,21 @@ namespace GCCloudSample.Controllers
         
         [HttpGet]
         public async Task<List<DepartmentService>> Get() {
-            return await _dbContext.DepartmentServices.ToListAsync();
+
+            List<DepartmentService> services = await _dbContext.DepartmentServices.ToListAsync();
+            if (services.Count() == 0) {
+                DepartmentService ds1 = new DepartmentService() { Id = 0, EnglishLabel = "Cat Petting Service", FrenchLabel = "Cat Petting Service - FR" };
+                DepartmentService ds2 = new DepartmentService() { Id = 1, EnglishLabel = "Dog Sitting Service", FrenchLabel = "Dog Sitting Serbvice - FR"};
+
+                _dbContext.Add(ds1);
+                _dbContext.Add(ds2);
+                _dbContext.SaveChanges();
+
+                services.Add(ds1);
+                services.Add(ds2);
+            }
+
+            return services;
         }
     }
 }

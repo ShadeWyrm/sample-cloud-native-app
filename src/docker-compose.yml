@@ -1,0 +1,20 @@
+version: '3'
+services:
+  db:
+    image: postgres:latest
+    environment: 
+        - POSTGRES_PASSWORD=abc123
+    ports:
+        - "5433:5432"
+  web:
+    image: samplecloudnativeapp:latest
+    environment: 
+        - POSTGRESQLCONNSTR_ConnectionString=Host=database.com;Database=postgres;Username=postgres;Password=abc123
+    depends_on: 
+        - db
+    ports:
+        - "80:80"
+    links:
+        - "db:database.com"
+volumes:
+  logvolume01: {}
